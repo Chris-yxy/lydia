@@ -1,0 +1,73 @@
+
+
+#ifndef _TLV_H_
+#define _TLV_H_
+
+#include <stdint.h>
+
+typedef struct _tlv_t{
+    uint32_t tag;
+    uint16_t len;
+    void *value;
+}tlv_t;
+
+typedef tlv_t*  tlv_pt;
+
+typedef struct _tlv_repo_t{
+    tlv_pt repo;
+    uint16_t capicity;
+    uint16_t size;
+}tlv_repo_t;
+
+typedef tlv_repo_t* tlv_repo_pt;
+
+typedef enum _tlv_attr_type_t{
+    TLV_ATTR_TYPE_N,
+    TLV_ATTR_TYPE_B,
+    TLV_ATTR_TYPE_ANS,
+}tlv_attr_type_t;
+
+typedef enum _tlv_attr_len_type_t{
+    TLV_ATTR_LEN_TYPE_FIX,
+    TLV_ATTR_TYPE_VAR,
+}tlv_attr_len_type_t;
+
+typedef enum _tlv_attr_update_src_t{
+    TLV_ATTR_UPDATE_SRC_K,
+    TLV_ATTR_UPDATE_SRC_RA,
+    TLV_ATTR_UPDATE_SRC_ACT,
+    TLV_ATTR_UPDATE_SRC_DET,
+}tlv_attr_update_src_t;
+
+typedef struct _tlv_attr_t{
+    tlv_attr_type_t type;
+    tlv_attr_len_type_t len_type;
+    tlv_attr_update_src_t update_src;
+    uint16_t len;
+}tlv_attr_t;
+
+typedef struct _tlv_dict_item_t{
+    uint32_t tag;
+    tlv_attr_t attr;
+}tlv_item_t;
+
+typedef tlv_item_t* tlv_item_pt;
+
+typedef struct _tlv_dict_t{
+    tlv_item_pt items;
+    int16_t size;
+}tlv_dict_t;
+
+typedef tlv_dict_t* tlv_dict_pt;
+
+typedef struct _tlv_context_t{
+    tlv_repo_pt tlv_repo;
+    tlv_dict_pt tlv_dict;
+}tlv_context_t;
+
+typedef tlv_context_t* tlv_context_pt;
+
+
+typedef int32_t (*onReadData)(uint32_t tag, uint16_t len, uint8_t *v);
+
+#endif
