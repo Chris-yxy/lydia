@@ -74,4 +74,6 @@ typedef int32_t (*onReadData)(uint32_t tag, uint16_t len, uint8_t *v);
 
 #define LYDIA_TLV_LEN_SIZE(len) (len & 0x80)?(len&0x7F):1
 
+int32_t lydia_tlv_read_data(/*tlv_context_pt *ctx, */uint8_t *data, uint16_t len,onReadData on_read_data);
+
 #endif

@@ -89,34 +89,29 @@ static int32_t _tlv_read_obj(tlv_t *tlv, uint8_t **data, uint16_t *len){
     ret = _tlv_read_tag(&tlv->tag, data, len);
     CHECK_CONDICTION(ret, ret, "read tag failed");
 
-    ret = _tlv_read_len(&tlv->tag, data, len);
+    ret = _tlv_read_len(&tlv->len, data, len);
     CHECK_CONDICTION(ret, ret, "read len failed");
 
-    ret = _tlv_read_v(&tlv->tag, data, len);
+    ret = _tlv_read_v((uint8_t **)&tlv->value, tlv->len,data, len);
     CHECK_CONDICTION(ret, ret, "read v failed");
 
     out:
     return ret;
 }
 
-int32_t tlv_read_data(tlv_context_pt *ctx, uint8_t *data, uint16_t len,onReadData on_read_data){
+int32_t lydia_tlv_read_data(/*tlv_context_pt *ctx, */uint8_t *data, uint16_t len,onReadData on_read_data){
     int32_t ret = 0;
     tlv_t tlv;
     uint16_t size = len;
 
-    if (NULL ==ctx ||
-        NULL == data ||
-        len==0) {
-        ret = -1;
-        goto out;
-    }
-
-    CHECK_CONDICTION((NULL == ctx) || (NULL == data) || (len == 0), LYDIA_ERR_PARAM, "invalid parameters");
+    CHECK_CONDICTION(/*(NULL == ctx) || */(NULL == data) || (len == 0), LYDIA_ERR_PARAM, "invalid parameters");
 
     do
     {
-        ret = tlv_read_data(&tlv, &data, &size, on_read_data);
+        ret = _tlv_read_obj(&tlv, &data, &size);
         CHECK_CONDICTION(ret, ret, "tlv read data [failed]");
+        ret = on_read_data(tlv.tag, tlv.len, tlv.value);
+        CHECK_CONDICTION(ret, ret, "tlv save data [failed]");
     } while (size > 0);
 
     out:

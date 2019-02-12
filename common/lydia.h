@@ -1,4 +1,6 @@
 
+#include<stdint.h>
+#include<string.h>
 
 #include "debug.h"
 
@@ -21,3 +23,12 @@ typedef enum _lydia_err_t{
 
 #define LYDIA_FALSE         (0)
 #define LYDIA_TRUE          (!LYDIA_FALSE) 
+
+/**********************************************************
+ * 
+ * TLV module export APIs
+ * 
+ * *******************************************************/
+typedef int32_t (*onReadData)(uint32_t tag, uint16_t len, uint8_t *v);
+
+int32_t lydia_tlv_read_data(/*tlv_context_pt *ctx,*/ uint8_t *data, uint16_t len,onReadData on_read_data);
