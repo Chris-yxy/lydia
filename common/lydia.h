@@ -8,11 +8,28 @@
 #define lydia_memcpy    memcpy
 #define lydia_memcmp    memcmp
 
+#define lydia_alloc memalloc
+#define lydia_free(p) do{                       \
+                            if(p){              \
+                                free(p);        \
+                                p = NULL;       \
+                            }                   \
+                        } while (0);
+
+
 #define CHECK_CONDICTION(cond, err, msg) do{                                             \
                                                 if (cond) {                              \
                                                     DBG("%s:[%d]\r\n", msg, err);        \
                                                     ret = err;                           \
                                                     goto out;                            \
+                                                }                                        \
+                                            }while(0)
+
+#define CHECK_CONDICTION_OUT_POINT(cond, err, msg,outpoint) do{                                             \
+                                                if (cond) {                              \
+                                                    DBG("%s:[%d]\r\n", msg, err);        \
+                                                    ret = err;                           \
+                                                    goto outpoint;                       \
                                                 }                                        \
                                             }while(0)
 

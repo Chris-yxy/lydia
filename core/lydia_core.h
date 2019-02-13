@@ -52,9 +52,65 @@
     }lydia_metadata_t;
 
     typedef struct _lydia_metadata_list_t{
-        lydia_metadata_t *list;
+        lydia_metadata_t *data;
         uint16_t size;
     }lydia_metadata_list_t;
+
+/*************************************************************
+ *  lydia certificates for offline data authentication
+ * **********************************************************/
+    typedef enum _lydia_ca_hash_schm_t{
+        LYDIA_CA_HASH_SCHEM_SHA1,
+    }lydia_ca_hash_schm_t;
+    
+    typedef enum _lydia_ca_sign_schm_t{
+        LYDIA_CA_SIGN_SCHEM_RSA,
+        LYDIA_CA_SIGN_SCHEM_SM,
+    }lydia_ca_sign_schm_t;
+
+    typedef struct _lydia_ca_schm_t{
+        lydia_ca_hash_schm_t hash_schm;
+        lydia_ca_sign_schm_t sign_schm;
+    }lydia_ca_schm_t;
+
+    #define RID_LEN         (5)
+    #define INDATE_LEN      (4)
+    #define MODULE_LEN      (248)
+    #define EXPONENT_LEN      (3)
+
+    #define SM_ID_LEN       (80)
+    #define SM_POINT_SIZE      (32)
+
+    typedef struct _lydia_ca_cert_t{
+        uint8_t magic;
+        uint8_t rid[RID_LEN];
+        uint8_t index;
+        uint8_t indate[INDATE_LEN];
+        lydia_ca_schm_t schm;
+        union 
+        {
+            struct rsa
+            {
+                uint8_t module[MODULE_LEN];
+                uint16_t module_size;
+                uint8_t exponent[EXPONENT_LEN];
+            }asRsa;
+
+            struct sm
+            {
+                uint8_t id[SM_ID_LEN];
+                uint8_t id_len;
+                uint16_t entl;
+                uint8_t x[SM_POINT_SIZE];
+                uint8_t y[SM_POINT_SIZE];
+            }asSm;
+        }pk;
+    }lydia_ca_cert_t;
+
+    typedef struct _lydia_ca_cert_list_t{
+        lydia_ca_cert_t *certs;
+        int8_t size;
+    }lydia_ca_cert_list_t;
 
     typedef struct _lydia_context_t{
         lydia_metadata_list_t *metadata_list;

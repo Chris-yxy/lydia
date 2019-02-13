@@ -44,7 +44,7 @@ static int32_t _lydia_apdu_raw_to_rapdu(uint8_t *raw, int16_t len, lydia_rapdu_t
     rapdu->data = raw;
     // rapdu.swab.swa = raw[len-2];
     // rapdu.swab.swb = raw[len-1];
-    rapdu.swab.swab = (raw[len-2]<< 8) | (raw[len-1]);
+    rapdu.swab.asInt = (raw[len-2]<< 8) | (raw[len-1]);
     out:
     return ret;
 }

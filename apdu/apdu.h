@@ -15,14 +15,14 @@ typedef struct _lydia_capdu_t
     uint16_t le;
 }lydia_capdu_t;
 
-typedef struct _lydia_apdu_swab_t
+typedef union _lydia_apdu_swab_t
 {
-    uint16_t swab;
-    union 
+    uint16_t asInt;
+    struct 
     {
         uint8_t swa;
         uint8_t swb;
-    };
+    }asRaw;
 }lydia_apdu_swab_t;
 
 
