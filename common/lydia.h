@@ -1,6 +1,7 @@
 
 #include<stdint.h>
 #include<string.h>
+#include<stdlib.h>
 
 #include "debug.h"
 
@@ -8,7 +9,7 @@
 #define lydia_memcpy    memcpy
 #define lydia_memcmp    memcmp
 
-#define lydia_alloc memalloc
+#define lydia_alloc malloc
 #define lydia_free(p) do{                       \
                             if(p){              \
                                 free(p);        \
