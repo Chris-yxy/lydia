@@ -89,6 +89,11 @@
         lydia_ca_schm_t schm;
         union 
         {
+            struct raw{
+                uint8_t *value;
+                uint16_t len;
+            }asRaw;
+
             struct rsa
             {
                 uint8_t module[MODULE_LEN];
