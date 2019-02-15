@@ -54,7 +54,68 @@
     typedef struct _lydia_metadata_list_t{
         lydia_metadata_t *data;
         uint16_t size;
+        struct repo{
+            uint8_t *buf;
+            uint16_t len;
+        }repo;
     }lydia_metadata_list_t;
+
+/***********************************************
+ *  lydia application selection define
+ * ********************************************/
+    #define MAX_AID_LEN         16
+    #define VERSION_LEN         2
+    typedef struct _lyadia_as_aid_t{
+        uint8_t version[VERSION_LEN];
+        uint8_t id[MAX_AID_LEN];
+        uint8_t len;
+    }lyadia_as_aid_t;
+
+    #define MAX_DOL_LEN         128
+    #define TAC_SIZE            5
+
+    typedef struct _lydia_as_app_config_t{
+        union mark
+        {
+            uint8_t asRaw;
+            struct subdivs
+            {
+                uint8_t partial_match:1;
+                uint8_t force_confirm:1;
+                uint8_t random_trans_sel:1;
+                uint8_t is_ddol_exist:1;
+                uint8_t is_default_tac_exist:1;
+                uint8_t is_online_tac_exist:1;
+                uint8_t is_denial_tac_exist:1;
+                uint8_t is_online_pin_sprt:1;
+                uint8_t is_velocity_sprt:1;
+            }asBits;
+        }mark;
+
+        uint8_t priority;
+        uint8_t default_ddol[MAX_DOL_LEN];
+        uint8_t default_tdol[MAX_DOL_LEN];
+        uint8_t tartget_percentage;
+        uint32_t threshold;
+        uint8_t default_tac[TAC_SIZE];
+        uint8_t online_tac[TAC_SIZE];
+        uint8_t denial_tac[TAC_SIZE];
+        uint32_t floor_limit;
+        uint32_t ec_trans_limit;
+        uint32_t cl_offline_limit;
+        uint32_t cl_trans_limit;
+        uint32_t cvm_limit;
+    }lydia_as_app_config_t;
+
+    typedef struct _lydia_as_app_t{
+        lyadia_as_aid_t aid;
+        lydia_as_app_config_t config;
+    }lydia_as_app_t;
+
+    typedef struct _lydia_as_app_list_t{
+        lydia_as_app_t *apps;
+        uint8_t size;
+    }lydia_as_app_list_t;
 
 /*************************************************************
  *  lydia certificates for offline data authentication
@@ -117,8 +178,13 @@
         int8_t size;
     }lydia_ca_cert_list_t;
 
+/*************************************************************
+ *  lydia context
+ * **********************************************************/
     typedef struct _lydia_context_t{
         lydia_metadata_list_t *metadata_list;
+        lydia_as_app_list_t   *app_list;
+        lydia_ca_cert_list_t  *ca_cert_list;
     }lydia_context_t;
 #ifdef _c_plus_plus
     }

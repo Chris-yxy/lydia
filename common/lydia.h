@@ -25,7 +25,7 @@
                                                 }                                        \
                                             }while(0)
 
-#define CHECK_CONDICTION_OUT_POINT(cond, err, msg,outpoint) do{                                             \
+#define CHECK_CONDICTION_OUT_POINT(cond, err, msg,outpoint) do{                          \
                                                 if (cond) {                              \
                                                     DBG("%s:[%d]\r\n", msg, err);        \
                                                     ret = err;                           \
