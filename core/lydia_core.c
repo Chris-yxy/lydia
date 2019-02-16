@@ -90,6 +90,7 @@ int32_t lydia_init_context(lydia_context_t *ctx,uint16_t metadata_size, uint8_t 
     ctx->ca_cert_list = lydia_alloc(sizeof(lydia_ca_cert_list_t));
     CHECK_CONDICTION(ctx->ca_cert_list == NULL, LYDIA_ERR_OOM, "lydia_init_context alloc ca_cert_list OOM");
     ret = lydia_ca_certs_init(ctx->ca_cert_list, certs_size);
+
     CHECK_CONDICTION(0 != ret, LYDIA_ERR_OOM, "lydia_metadata_init failed");
     
     return ret;
