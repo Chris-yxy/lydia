@@ -3,7 +3,7 @@
 
 int32_t on_read_data(uint32_t tag, uint16_t len, uint8_t *v)
 {
-    DBG(":");
+    DBG(":\n");
     DBG_RAW("tag:%X\r\n", tag);
     DBG_RAW("L:%d\r\n", len);
     HEX_DUMP("V:", v, len);
@@ -22,6 +22,10 @@ void test_tlv(void)
     {
         DBG("[FAILED]\r\n");
     }
-    
-    
+}
+
+int main(void)
+{
+    test_tlv();
+    return 0;
 }

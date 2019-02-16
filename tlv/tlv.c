@@ -9,6 +9,7 @@ static int32_t _tlv_read_tag(uint32_t *tag, uint8_t **data, uint16_t *len){
     uint8_t *p_data = *data;
     uint16_t offset = 0;
 
+    HEX_DUMP("in msg:", p_data, *len);
     CHECK_CONDICTION(tag == NULL, LYDIA_ERR_PARAM, "err parameter");
     *tag = 0;
 
@@ -16,7 +17,7 @@ static int32_t _tlv_read_tag(uint32_t *tag, uint8_t **data, uint16_t *len){
     {
         CHECK_CONDICTION(offset>=*len, LYDIA_ERR_OOM, "length over flow");
         *tag = p_data[offset++];
-
+        DBG("tag:%X\r\n", *tag);
         if (*tag == 0xFF || *tag == 0x00) {
             *tag = 0x00;
             continue;
@@ -38,6 +39,7 @@ static int32_t _tlv_read_tag(uint32_t *tag, uint8_t **data, uint16_t *len){
 
     *data = p_data+offset;
     *len = *len - offset;
+    DBG("tag:%X\r\n", *tag);
     out:
     return ret;
 }

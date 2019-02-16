@@ -70,7 +70,7 @@ typedef tlv_context_t* tlv_context_pt;
 typedef int32_t (*onReadData)(uint32_t tag, uint16_t len, uint8_t *v);
 
 #define LYDIA_TLV_MORE_TAG(tag) (tag & 0x80)?LYDIA_TRUE:LYDIA_FALSE
-#define LYDIA_TLV_SEE_CONTINUE(tag) (tag & 0x1F)?LYDIA_TRUE:LYDIA_FALSE
+#define LYDIA_TLV_SEE_CONTINUE(tag) ((tag & 0x1F) == 0x1F)?LYDIA_TRUE:LYDIA_FALSE
 
 #define LYDIA_TLV_LEN_SIZE(len) (len & 0x80)?(len&0x7F):1
 
